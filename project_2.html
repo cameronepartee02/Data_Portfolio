@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Widest Reach Wins - Cameron Partee</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A skills-demand breakdown of 16 job postings across 6 companies, built and framed as a staffing-firm market-intelligence product.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #0B0F0E;
+    --cream-alt: #141917;
+    --panel: #141917;
+    --border: #262E2A;
+    --ink: #F4FBF5;
+    --muted: #8B9992;
+    --muted-2: #5C6660;
+
+    --accent: #00C805;
+    --accent-soft: #0E2A12;
+    --accent-dark: #21E524;
+
+    --eff: #FF5033;
+    --eff-soft: #2A0F0C;
+    --eff-dark: #FF7A5C;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
+  a { color: var(--ink); text-decoration: none; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 2rem; }
+
+  /* ---- Back nav ---- */
+  .back-nav { padding: 1.5rem 0 0; }
+  .back-nav a { font-size: 0.85rem; color: var(--muted); letter-spacing: 0.02em; }
+  .back-nav a:hover { color: var(--accent); }
+
+  /* ---- Hero ---- */
+  .hero {
+    padding: 1.75rem 0 2.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero .p-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--eff);
+    border: 1px solid var(--eff);
+    border-radius: 999px;
+    padding: 0.2rem 0.7rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .tag-pill {
+    display: inline-block;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    border-radius: 999px;
+    padding: 0.2rem 0.7rem;
+    border: 1px solid;
+  }
+
+  .tag-pill.eff { color: var(--eff); border-color: var(--eff); }
+  .tag-pill.accent { color: var(--accent); border-color: var(--accent); }
+
+  .stat-table { width: 100%; border-collapse: collapse; }
+  .stat-table .stat-head {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-align: center;
+    padding: 0.65rem 0.5rem;
+    border: 1px solid var(--border);
+  }
+  .stat-table td.label { border: 1px solid var(--border); padding: 0.7rem 0.85rem; font-size: 0.86rem; color: var(--muted); }
+  .stat-table td.value {
+    border: 1px solid var(--border);
+    padding: 0.7rem 0.85rem;
+    font-size: 0.9rem;
+    text-align: right;
+    font-weight: 700;
+    color: var(--eff-dark);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hero { text-align: center; }
+
+  .hero-center { max-width: 640px; margin: 0 auto; }
+
+  .hero h1 {
+    font-size: clamp(2rem, 4.4vw, 3.1rem);
+    line-height: 1.12;
+    margin-bottom: 1rem;
+  }
+
+  .hero p.hook {
+    font-size: 1.02rem;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+
+  /* ---- Reusable horizontal bar chart ---- */
+  .hbar-list { margin-top: 2rem; text-align: left; max-width: 520px; margin-left: auto; margin-right: auto; }
+
+  .hbar-label {
+    font-size: 0.78rem;
+    color: var(--muted-2);
+    margin-bottom: 0.9rem;
+    text-align: center;
+  }
+
+  .hbar-row {
+    display: grid;
+    grid-template-columns: 130px 1fr 42px;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.35rem 0;
+  }
+
+  .hbar-name { font-size: 0.85rem; color: var(--ink); }
+
+  .hbar-track {
+    background: var(--border);
+    height: 9px;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .hbar-fill {
+    height: 100%;
+    border-radius: 5px;
+    background: var(--eff);
+  }
+
+  .hbar-fill.accent { background: var(--accent); }
+
+  .hbar-val {
+    font-size: 0.82rem;
+    color: var(--muted);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hbar-row.standout .hbar-name { color: var(--eff-dark); font-weight: 600; }
+  .hbar-row.standout .hbar-val { color: var(--eff-dark); font-weight: 600; }
+
+  .hbar-note {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.55;
+    text-align: center;
+  }
+
+  /* ---- Section shell ---- */
+  section { padding: 2.75rem 0; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+  section h2 { font-size: 1.7rem; margin-bottom: 0.5rem; }
+  section .section-sub { color: var(--muted-2); font-size: 0.92rem; margin-bottom: 2rem; max-width: 62ch; }
+
+  /* ---- Two-stakeholder split ---- */
+  .stake-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  @media (max-width: 800px) { .stake-grid { grid-template-columns: 1fr; } }
+
+  .stake-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 1.75rem;
+  }
+
+  .stake-card .pillar-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    letter-spacing: 0.03em;
+    font-weight: 600;
+    padding: 0.15rem 0.6rem;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+  }
+
+  .stake-card.seeker .pillar-tag { background: var(--eff-soft); color: var(--eff-dark); }
+  .stake-card.firm .pillar-tag { background: var(--accent-soft); color: var(--accent-dark); }
+
+  .stake-card h3 { font-family: 'Inter', sans-serif; font-size: 1.08rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .stake-card p { color: var(--muted); font-size: 0.92rem; line-height: 1.6; margin: 0; }
+
+  .stake-card .stake-stat {
+    margin-top: 1.1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+
+  .stake-card .stake-stat .big-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 1.5rem;
+  }
+
+  .stake-card.seeker .stake-stat .big-num { color: var(--eff-dark); }
+  .stake-card.firm .stake-stat .big-num { color: var(--accent-dark); }
+
+  .stake-card .stake-stat .stake-stat-lbl { font-size: 0.82rem; color: var(--muted); line-height: 1.4; }
+
+  .stake-card .dual-pillar {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+  }
+
+  .dual-pillar span {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 0.1rem 0.55rem;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  /* ---- Dashboard embed ---- */
+  .dash-wrap {
+    border: 1px solid var(--border);
+    background: #FAFAF7;
+    padding: 1.25rem;
+  }
+
+  .dash-note {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--muted-2);
+  }
+
+  /* ---- Insight cards: staggered grid ---- */
+  .insight-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.25rem;
+  }
+  @media (max-width: 900px) { .insight-grid { grid-template-columns: 1fr; } }
+
+  .insight-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    border-top: 3px solid var(--eff);
+  }
+
+  .insight-card.lead {
+    grid-column: span 6;
+    border-top: 3px solid var(--eff);
+    padding: 2rem;
+    background: var(--panel);
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+  @media (max-width: 900px) { .insight-card.lead { grid-template-columns: 1fr; } }
+
+  .insight-card.wide { grid-column: span 3; }
+  .insight-card.narrow { grid-column: span 2; }
+
+  @media (max-width: 900px) {
+    .insight-card.wide, .insight-card.narrow { grid-column: span 1; }
+  }
+
+  .insight-card .pillar-tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    letter-spacing: 0.02em;
+    font-weight: 600;
+    padding: 0.12rem 0.55rem;
+    border-radius: 2px;
+    background: var(--eff-soft);
+    color: var(--eff-dark);
+    margin-bottom: 0.85rem;
+  }
+
+  .insight-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.12rem;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    line-height: 1.25;
+    margin-bottom: 0.6rem;
+  }
+
+  .insight-card.lead h3 { font-size: 1.55rem; }
+
+  .insight-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; margin: 0; }
+
+  .insight-card .figure {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 2.2rem;
+    color: var(--eff-dark);
+    line-height: 1;
+  }
+
+  .lead-visual {
+    background: var(--cream-alt);
+    border: 1px solid var(--border);
+    padding: 1.25rem;
+  }
+
+  .rank-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem;
+  }
+  .rank-row:last-child { border-bottom: none; }
+  .rank-row .name { color: var(--ink); }
+  .rank-row .val { font-weight: 700; color: var(--eff-dark); }
+  .rank-row.strike .name { text-decoration: line-through; color: var(--muted-2); }
+  .rank-row.strike .val { color: var(--muted-2); text-decoration: line-through; }
+
+  .rank-row.strike-label {
+    padding: 0.4rem 0 0.1rem;
+    border-bottom: none;
+    font-size: 0.7rem;
+    letter-spacing: 0.03em;
+    color: var(--muted-2);
+    text-transform: uppercase;
+  }
+  .rank-row.strike-label .name { text-decoration: none; }
+
+  .lead-visual .visual-label {
+    font-size: 0.72rem;
+    color: var(--muted-2);
+    margin-bottom: 0.5rem;
+  }
+
+  /* ---- Donut chart ---- */
+  .donut-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.9rem;
+    margin-top: 1.25rem;
+    text-align: center;
+  }
+
+  .donut-chart {
+    width: 148px;
+    height: 148px;
+    border-radius: 50%;
+    background: conic-gradient(var(--accent) 0% 85%, var(--accent-soft) 85% 100%);
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .donut-chart::before {
+    content: '';
+    position: absolute;
+    inset: 24px;
+    border-radius: 50%;
+    background: var(--panel);
+  }
+
+  .donut-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 1.6rem;
+    color: var(--accent-dark);
+  }
+
+  .donut-legend { font-size: 0.8rem; color: var(--muted); }
+  .donut-legend .leg-row { display: flex; align-items: center; justify-content: center; gap: 0.4rem; margin-bottom: 0.3rem; }
+  .donut-legend .swatch { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+  .donut-legend .swatch.req { background: var(--accent); }
+  .donut-legend .swatch.pref { background: var(--accent-soft); }
+
+  /* ---- Scatter chart ---- */
+  .scatter-chart { margin-top: 1rem; }
+  .scatter-chart svg text { font-family: 'Inter', sans-serif; }
+
+  /* ---- Left-out analysis list ---- */
+  .leftout-list { display: flex; flex-direction: column; gap: 0; }
+
+  .leftout-item {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 1.5rem;
+    padding: 1.1rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .leftout-item:first-child { border-top: none; }
+  @media (max-width: 700px) { .leftout-item { grid-template-columns: 1fr; gap: 0.4rem; } }
+
+  .leftout-item .what {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--muted-2);
+    text-decoration: line-through;
+    text-decoration-color: var(--border);
+  }
+
+  .leftout-item .why { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+  /* ---- Footer ---- */
+  footer { padding: 2.5rem 0 3rem; text-align: center; font-size: 0.85rem; color: var(--muted-2); }
+  footer a { color: var(--muted); }
+  footer a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+  <div class="wrap">
+
+    <div class="back-nav">
+      <a href="index.html">&larr; back to portfolio</a>
+    </div>
+
+    <div class="hero">
+      <div class="tag-row">
+        <span class="tag-pill eff">Market-intelligence</span>
+        <span class="tag-pill accent">Tableau</span>
+        <span class="tag-pill eff">Data Visualization</span>
+        <span class="tag-pill accent">Business Case</span>
+      </div>
+      <div class="hero-center">
+        <h1>Widest reach wins, hands down. For max efficiency.</h1>
+        <p class="hook">Sixteen job postings, six companies, pulled and cleaned to find which skills are worth learning first: the ones that make you valuable to the most companies at once.</p>
+
+        <div class="hbar-list">
+          <div class="hbar-label">Share of postings marking each skill Required, across all 6 companies</div>
+          <div class="hbar-row standout"><span class="hbar-name">Python scripting</span><div class="hbar-track"><div class="hbar-fill" style="width:83.57%"></div></div><span class="hbar-val">83.57%</span></div>
+          <div class="hbar-row standout"><span class="hbar-name">Business case &amp; strategy framing</span><div class="hbar-track"><div class="hbar-fill" style="width:83.57%"></div></div><span class="hbar-val">83.57%</span></div>
+          <div class="hbar-row"><span class="hbar-name">Marketing Analytics Stack</span><div class="hbar-track"><div class="hbar-fill" style="width:81.82%"></div></div><span class="hbar-val">81.82%</span></div>
+          <div class="hbar-row"><span class="hbar-name">AI/GenAI strategy &amp; application</span><div class="hbar-track"><div class="hbar-fill" style="width:80%"></div></div><span class="hbar-val">80%</span></div>
+          <div class="hbar-row"><span class="hbar-name">SQL</span><div class="hbar-track"><div class="hbar-fill" style="width:76.43%"></div></div><span class="hbar-val">76.43%</span></div>
+          <p class="hbar-note">These are the five skills most often marked Required rather than Preferred, which is exactly what widest reach wins means in practice.</p>
+        </div>
+      </div>
+    </div>
+
+    <section id="who-for">
+      <h2 style="text-align: center;">Who benefits from this analysis</h2>
+      <p class="section-sub" style="text-align: center; margin-left: auto; margin-right: auto;">The analysis can be pitched from either side of the hire: to the candidate, or to the firm placing them.</p>
+
+      <div class="stake-grid">
+        <div class="stake-card seeker">
+          <span class="pillar-tag">Pillar &middot; Efficiency</span>
+          <h3>For the job seeker</h3>
+          <p>Where to spend limited learning time for the widest possible return, not the skill that shows up most often on paper, but the one that opens the most doors across the most employers for the least additional effort.</p>
+          <div class="stake-stat"><span class="big-num">6/6</span><span class="stake-stat-lbl">companies list SQL, the only skill on this list with universal reach</span></div>
+        </div>
+        <div class="stake-card firm">
+          <span class="pillar-tag">Pillar &middot; Efficiency + Revenue</span>
+          <h3>For the staffing firm</h3>
+          <p>Knowing precisely who wants what cuts down on mismatched candidates and speeds up placements, which means more successful, revenue-generating matches.</p>
+          <div class="dual-pillar"><span>faster placements</span><span>fewer mismatches</span></div>
+          <div class="stake-stat"><span class="big-num">62</span><span class="stake-stat-lbl">individual skills IBM alone lists across five roles, the kind of manual cross-referencing automated in a dashboard view</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboard">
+      <h2 style="text-align: center;">The dashboard</h2>
+      <p class="section-sub" style="text-align: center; margin-left: auto; margin-right: auto;">Filter by company or skill category and explore the patterns yourself. The findings below are the ones with the clearest read on where to focus.</p>
+
+      <div class="dash-wrap">
+        <div class='tableauPlaceholder' id='viz1789793885864' style='position: relative'><noscript><a href='#'>
+        <img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Da&#47;DataAnalyticsJobsDashboard&#47;WhatDoEmployersActuallyWant&#47;1_rss.png' style='border: none' /></a></noscript>
+        <object class='tableauViz' style='display:none;'>
+          <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+          <param name='embed_code_version' value='3' />
+          <param name='site_root' value='' />
+          <param name='name' value='DataAnalyticsJobsDashboard&#47;WhatDoEmployersActuallyWant' />
+          <param name='tabs' value='yes' />
+          <param name='toolbar' value='yes' />
+          <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Da&#47;DataAnalyticsJobsDashboard&#47;WhatDoEmployersActuallyWant&#47;1.png' />
+          <param name='animate_transition' value='yes' />
+          <param name='display_static_image' value='yes' />
+          <param name='display_spinner' value='yes' />
+          <param name='display_overlay' value='yes' />
+          <param name='display_count' value='yes' />
+          <param name='language' value='en-US' />
+        </object></div>
+        <script type='text/javascript'>
+          var divElement = document.getElementById('viz1789793885864');
+          var vizElement = divElement.getElementsByTagName('object')[0];
+          if ( divElement.offsetWidth > 800 ) { vizElement.style.minWidth='1100px';vizElement.style.maxWidth='100%';vizElement.style.minHeight='850px';vizElement.style.maxHeight=(divElement.offsetWidth*0.75)+'px';}
+          else if ( divElement.offsetWidth > 500 ) { vizElement.style.minWidth='1100px';vizElement.style.maxWidth='100%';vizElement.style.minHeight='850px';vizElement.style.maxHeight=(divElement.offsetWidth*0.75)+'px';}
+          else { vizElement.style.width='100%';vizElement.style.minHeight='1550px';vizElement.style.maxHeight=(divElement.offsetWidth*1.77)+'px';}
+          var scriptElement = document.createElement('script');
+          scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+          vizElement.parentNode.insertBefore(scriptElement, vizElement);
+        </script>
+        <p class="dash-note">Interactive &middot; filter by company or skill category to explore on your own.</p>
+      </div>
+    </section>
+
+    <section id="insights">
+      <h2 style="text-align: center;">What the data shows</h2>
+      <p class="section-sub" style="text-align: center; margin-left: auto; margin-right: auto;">The findings below are the ones that should actually move your hiring decisions, starting with the reframe and ending with the supporting detail.</p>
+
+      <div class="insight-grid">
+
+        <div class="insight-card lead">
+          <div>
+            <span class="pillar-tag">Pillar &middot; Efficiency</span>
+            <h3>Ranked #1 by mentions. Barely there by reach.</h3>
+            <p>Marketing Analytics Stack is mentioned 31 times across the dataset, more than any other category, which on paper reads as the single most in-demand skill area. But it only shows up at three of the six companies. High volume paired with low reach points to concentration, not demand: the category is likely overloaded within the handful of job descriptions that include it, rather than broadly expected across the market the way its mention count alone suggests.</p>
+          </div>
+          <div class="lead-visual">
+            <table class="stat-table">
+              <tr><td class="stat-head" colspan="2">Marketing Analytics Stack</td></tr>
+              <tr><td class="label">Volume mention/rank:</td><td class="value">31/1</td></tr>
+              <tr><td class="label">Category penetration:</td><td class="value">3 out of 6 job postings</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="insight-card wide">
+          <span class="pillar-tag">Pillar &middot; Efficiency</span>
+          <h3>A short list doesn't mean a strict one.</h3>
+          <p>ShopMy and Jump Trading Group both keep their skill lists short, but only about half of what's on them is actually Required, the rest is marked Preferred. Amazon keeps its list just as short and skips the hedge entirely: 11 of 13 skills are Required, almost nothing negotiable.</p>
+          <div class="scatter-chart">
+            <svg viewBox="0 0 480 230" width="100%">
+              <rect x="55" y="30" width="405" height="160" fill="none" stroke="var(--border)" stroke-width="1"></rect>
+              <line x1="55" y1="190.0" x2="460" y2="190.0" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="2,2"></line>
+              <text x="47" y="193.0" font-size="9" fill="var(--muted-2)" text-anchor="end">40%</text>
+              <line x1="55" y1="158.0" x2="460" y2="158.0" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="2,2"></line>
+              <text x="47" y="161.0" font-size="9" fill="var(--muted-2)" text-anchor="end">50%</text>
+              <line x1="55" y1="126.0" x2="460" y2="126.0" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="2,2"></line>
+              <text x="47" y="129.0" font-size="9" fill="var(--muted-2)" text-anchor="end">60%</text>
+              <line x1="55" y1="94.0" x2="460" y2="94.0" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="2,2"></line>
+              <text x="47" y="97.0" font-size="9" fill="var(--muted-2)" text-anchor="end">70%</text>
+              <line x1="55" y1="62.0" x2="460" y2="62.0" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="2,2"></line>
+              <text x="47" y="65.0" font-size="9" fill="var(--muted-2)" text-anchor="end">80%</text>
+              <line x1="55" y1="30.0" x2="460" y2="30.0" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="2,2"></line>
+              <text x="47" y="33.0" font-size="9" fill="var(--muted-2)" text-anchor="end">90%</text>
+              <text x="55.0" y="206" font-size="9" fill="var(--muted-2)" text-anchor="middle">0</text>
+              <text x="117.3" y="206" font-size="9" fill="var(--muted-2)" text-anchor="middle">10</text>
+              <text x="179.6" y="206" font-size="9" fill="var(--muted-2)" text-anchor="middle">20</text>
+              <text x="241.9" y="206" font-size="9" fill="var(--muted-2)" text-anchor="middle">30</text>
+              <text x="304.2" y="206" font-size="9" fill="var(--muted-2)" text-anchor="middle">40</text>
+              <text x="366.5" y="206" font-size="9" fill="var(--muted-2)" text-anchor="middle">50</text>
+              <text x="428.8" y="206" font-size="9" fill="var(--muted-2)" text-anchor="middle">60</text>
+              <text x="257.5" y="224" font-size="10" fill="var(--muted)" text-anchor="middle" font-weight="600">Distinct skills listed (breadth)</text>
+              <text x="18" y="110.0" font-size="10" fill="var(--muted)" text-anchor="middle" font-weight="600" transform="rotate(-90 18 110.0)">Share marked Required (%)</text>
+              <circle cx="98.6" cy="135.3" r="4.5" fill="var(--muted-2)"></circle>
+              <text x="98.6" y="126.3" font-size="8.5" fill="var(--muted)" text-anchor="middle">Jump Trading Group</text>
+              <circle cx="136.0" cy="47.3" r="6" fill="var(--accent)"></circle>
+              <text x="136.0" y="35.3" font-size="10" fill="var(--accent-dark)" text-anchor="middle" font-weight="700">Amazon</text>
+              <circle cx="142.2" cy="158.0" r="4.5" fill="var(--muted-2)"></circle>
+              <text x="142.2" y="149.0" font-size="8.5" fill="var(--muted)" text-anchor="middle">ShopMy</text>
+              <circle cx="329.2" cy="158.0" r="4.5" fill="var(--muted-2)"></circle>
+              <text x="329.2" y="149.0" font-size="8.5" fill="var(--muted)" text-anchor="middle">Accenture</text>
+              <circle cx="366.5" cy="132.4" r="4.5" fill="var(--muted-2)"></circle>
+              <text x="366.5" y="123.4" font-size="8.5" fill="var(--muted)" text-anchor="middle">Deloitte</text>
+              <circle cx="441.3" cy="158.0" r="6" fill="var(--eff)"></circle>
+              <text x="441.3" y="176.0" font-size="10" fill="var(--eff-dark)" text-anchor="middle" font-weight="700">IBM</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="insight-card wide">
+          <span class="pillar-tag">Pillar &middot; Efficiency</span>
+          <h3>Amazon expects mastery, across the board.</h3>
+          <p>At Amazon, 85% of everything listed is non-negotiable, almost nothing is a nice-to-have. No wiggle room, no partial-credit skills. Consistent with Amazon's reputation for high performance standards.</p>
+          <div class="donut-row">
+            <div class="donut-chart"><div class="donut-center">85%</div></div>
+            <div class="donut-legend">
+              <div class="leg-row"><span class="swatch req"></span>Required, 11 of 13 skills</div>
+              <div class="leg-row"><span class="swatch pref"></span>Preferred, 2 of 13 skills</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="insight-card wide">
+          <div class="figure">5/6</div>
+          <p>companies value BI &amp; visualization tools, expected, given every role here sits in data and analytics.</p>
+        </div>
+
+        <div class="insight-card wide">
+          <div class="figure">2/6</div>
+          <p>companies actually list Excel, Deloitte and IBM, both longer-established firms, despite how standard Excel is across the field.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="left-out">
+      <h2 style="text-align: center;">What I measured but didn't chart</h2>
+      <p class="section-sub" style="text-align: center; margin-left: auto; margin-right: auto;">Not every cut we ran earned a place in this deck. Here's what else we looked at, and why it didn't change the recommendation.</p>
+
+      <div class="leftout-list">
+        <div class="leftout-item">
+          <div class="what">Salary by seniority</div>
+          <div class="why">More senior roles paid more, exactly as expected, and it didn't answer either of the two questions this project started with.</div>
+        </div>
+        <div class="leftout-item">
+          <div class="what">Posting location</div>
+          <div class="why">Every single posting in the set was based in New York. Nothing to chart when a variable doesn't vary.</div>
+        </div>
+        <div class="leftout-item">
+          <div class="what">Travel allocation</div>
+          <div class="why">Observed, but pulling on this thread was drifting away from the core skills question the project was built to answer.</div>
+        </div>
+        <div class="leftout-item">
+          <div class="what">Industry mix</div>
+          <div class="why">Roughly three-quarters of the pool skewed toward consulting-adjacent roles. Coming from a technical background, that was the moment it became clear that strategic positioning, not just technical depth, is the actual gap to close for roles like these.</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <a href="index.html">&larr; Back to portfolio</a> &middot; Cameron Partee &middot; Data Analyst &middot; <a href="mailto:cameronepartee@gmail.com">email</a> &middot; <a href="https://www.linkedin.com/in/cameronpartee/">linkedin</a>
+  </footer>
+
+</body>
+</html>

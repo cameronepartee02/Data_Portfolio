@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cameron Partee — Data Analyst</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Data analyst and analytics portfolio — Cameron Partee.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #0B0F0E;
+    --cream-alt: #141917;
+    --panel: #141917;
+    --border: #262E2A;
+    --ink: #F4FBF5;
+    --muted: #8B9992;
+    --muted-2: #5C6660;
+
+    --accent: #00C805;
+    --accent-soft: #0E2A12;
+    --accent-dark: #21E524;
+
+    --eff: #FF5033;
+    --eff-soft: #2A0F0C;
+    --eff-dark: #FF7A5C;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; margin: 0; letter-spacing: -0.01em; }
+
+  a { color: var(--ink); text-decoration: none; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 2rem; }
+
+  /* ---- Ticker strip ---- */
+  .ticker {
+    background: var(--cream-alt);
+    border-bottom: 1px solid var(--border);
+    padding: 0.55rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-track {
+    display: inline-flex;
+    animation: ticker-scroll 32s linear infinite;
+  }
+
+  @keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-track { animation: none; }
+  }
+
+  .ticker span {
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    color: var(--muted);
+    padding-right: 1.8rem;
+  }
+
+  .ticker span::after {
+    content: "\00b7";
+    margin-left: 1.8rem;
+    color: var(--muted-2);
+  }
+
+  /* ---- Hero ---- */
+  .hero {
+    position: relative;
+    padding: 6.6rem 0 2rem;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.6rem, 6vw, 4.2rem);
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin-bottom: 0.6rem;
+  }
+
+  .hero-role {
+    font-size: 0.92rem;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+    margin: 0 0 1.5rem;
+  }
+
+  .hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    font-size: 0.92rem;
+  }
+
+  .hero-links a {
+    color: var(--ink);
+    padding: 0.3rem 0.9rem;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-links a:not(:last-child)::after {
+    content: "\00b7";
+    margin-left: 0.9rem;
+    color: var(--muted-2);
+  }
+
+  .hero-links a.primary { color: var(--accent); font-weight: 600; }
+  .hero-links a:hover { color: var(--accent); }
+
+  .hero-cred {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.1rem;
+    padding: 0.4rem 0.9rem 0.4rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .hero-cred:hover { border-color: var(--accent); color: var(--ink); }
+
+  .hero-cred svg { flex: 0 0 auto; display: block; }
+
+  /* ---- KPI strip ---- */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    border: 1px solid var(--border);
+    background: var(--panel);
+    margin: 1.5rem 0;
+  }
+
+  .kpi-card {
+    border-top: 3px solid var(--accent);
+    border-right: 1px solid var(--border);
+    padding: 0.75rem 0.9rem;
+  }
+
+  .kpi-card:last-of-type { border-right: none; }
+
+  .kpi-card .num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .kpi-card .lbl {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 0.25rem;
+    line-height: 1.35;
+  }
+
+  /* ---- Section shell ---- */
+  section { padding: 2.75rem 0; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+
+  section h2 {
+    font-size: 1.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ---- Split row ---- */
+  .split-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  @media (max-width: 720px) {
+    .split-row { grid-template-columns: 1fr; gap: 0; }
+    .split-col + .split-col { margin-top: 2.5rem; }
+  }
+
+  /* ---- Past experience ---- */
+  .bg-item {
+    padding: 0.9rem 0 0.9rem 1.1rem;
+    border-left: 2px solid var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .bg-item:last-of-type { margin-bottom: 0; }
+
+  .bg-when {
+    font-size: 0.76rem;
+    letter-spacing: 0.03em;
+    color: var(--muted-2);
+    margin-bottom: 0.3rem;
+  }
+
+  .bg-what h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+
+  .bg-what p {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 2px;
+    padding: 0.12rem 0.65rem;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+
+  .bg-note {
+    margin-top: 1.25rem;
+    font-size: 0.85rem;
+    color: var(--muted-2);
+  }
+
+  /* ---- Skills ---- */
+  .tm-col + .tm-col { margin-top: 1.75rem; }
+
+  .tm-col h3 {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted-2);
+    font-weight: 600;
+    margin-bottom: 0.85rem;
+  }
+
+  .tag-list { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+
+  .tag {
+    font-size: 0.82rem;
+    padding: 0.32rem 0.8rem;
+    border-radius: 2px;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+  }
+
+  .tag.filled {
+    background: var(--accent-soft);
+    border-color: var(--accent-soft);
+    color: var(--accent-dark);
+  }
+
+  /* ---- Projects ---- */
+  .project-card {
+    display: flex;
+    align-items: stretch;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+  }
+
+  .project-card:hover { border-color: var(--accent); }
+
+  .project-card-thumb img { transition: transform 0.35s ease; }
+  .project-card:hover .project-card-thumb img { transform: scale(1.045); }
+
+  .project-card-text { flex: 1 1 auto; min-width: 0; padding: 2rem; }
+
+  .project-card-thumb {
+    flex: 0 0 auto;
+    width: 380px;
+    align-self: stretch;
+  }
+
+  .project-card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+  }
+
+  @media (max-width: 700px) {
+    .project-card { flex-direction: column; align-items: stretch; }
+    .project-card-thumb { width: 100%; height: 220px; order: -1; }
+  }
+
+  .project-card .p-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    padding: 0.2rem 0.7rem;
+    margin-bottom: 1rem;
+  }
+
+  .project-card .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .project-card .tag-row .p-tag { margin-bottom: 0; }
+  .project-card .tag-row .p-tag.eff { color: var(--eff); border-color: var(--eff); }
+  .project-card .tag-row .p-tag.accent { color: var(--accent); border-color: var(--accent); }
+
+  .project-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.6rem;
+  }
+
+  .project-card p {
+    color: var(--muted);
+    font-size: 0.98rem;
+    line-height: 1.65;
+    margin: 0 0 1.1rem;
+    max-width: 62ch;
+  }
+
+  .project-card .p-stat {
+    font-size: 0.85rem;
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .project-card .p-view {
+    display: inline-block;
+    margin-top: 1.25rem;
+    border: 1px solid var(--accent);
+    border-radius: 2px;
+    padding: 0.4rem 1.1rem;
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .project-card-placeholder {
+    border: 1px dashed var(--border);
+    padding: 1.75rem 2rem;
+    color: var(--muted-2);
+    font-size: 0.9rem;
+  }
+
+  /* ---- Credentials ---- */
+  .cred-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    padding: 1.5rem 1.75rem;
+  }
+
+  .cred-mark { flex: 0 0 auto; }
+
+  .cred-body { flex: 1 1 auto; min-width: 0; }
+
+  .cred-body h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .cred-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .cred-meta span { color: var(--muted-2); }
+
+  .cred-verify {
+    flex: 0 0 auto;
+    border: 1px solid var(--accent);
+    border-radius: 2px;
+    padding: 0.4rem 1.1rem;
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .cred-verify:hover { background: var(--accent-soft); }
+
+  .cred-skills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+
+  .cred-skill {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.65rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 600px) {
+    .cred-card { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .cred-verify { align-self: flex-start; }
+  }
+
+  /* ---- Footer ---- */
+  footer {
+    padding: 2.5rem 0 3rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--muted-2);
+  }
+
+  footer a { color: var(--muted); }
+  footer a:hover { color: var(--accent); }  .bg-item { transition: opacity 0.2s ease, background 0.2s ease; }
+  .bg-item[data-role] { cursor: pointer; }
+  .bg-item.role-active { background: var(--accent-soft); border-radius: 4px; }
+  .tag { transition: opacity 0.2s ease, box-shadow 0.2s ease; }
+  .tag-flash { box-shadow: 0 0 0 2px var(--accent); }
+  .tm-hint { font-size: 0.82rem; color: var(--muted-2); font-style: italic; margin: -0.5rem 0 1.25rem; }
+  .ticker span { cursor: pointer; }
+  .ticker span:hover { color: var(--ink); }
+
+</style>
+</head>
+<body>
+
+  <div class="ticker">
+    <div class="wrap">
+      <div class="ticker-track">
+        <span>PL-300 Certified</span><span>Microsoft</span><span>pandas</span><span>Top Performer</span><span>Microsoft Power BI</span><span>Gradient Boosting</span><span>Spelman College</span><span>NYU</span><span>Azure</span><span>scikit-learn</span><span>LOGO-CV</span><span>Kobie</span><span>Statistical Data Analysis</span><span>Snowflake</span><span>Tableau</span><span>Excel</span><span>AI/GenAI Fluency</span><span>Query Optimization</span><span>Pipeline Automation</span><span>Scenario Modeling</span><span>Financial &amp; Liability Modeling</span><span>Business Case &amp; Strategy Framing</span><span>Data Visualization</span><span>PL-300 Certified</span><span>Microsoft</span><span>pandas</span><span>Top Performer</span><span>Microsoft Power BI</span><span>Gradient Boosting</span><span>Spelman College</span><span>NYU</span><span>Azure</span><span>scikit-learn</span><span>LOGO-CV</span><span>Kobie</span><span>Statistical Data Analysis</span><span>Snowflake</span><span>Tableau</span><span>Excel</span><span>AI/GenAI Fluency</span><span>Query Optimization</span><span>Pipeline Automation</span><span>Scenario Modeling</span><span>Financial &amp; Liability Modeling</span><span>Business Case &amp; Strategy Framing</span><span>Data Visualization</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="hero">
+      <h1>Cameron Partee</h1>
+      <p class="hero-role">Data Analyst</p>
+      <div class="hero-links">
+        <a class="primary" href="#projects">view projects</a>
+        <a href="https://www.linkedin.com/in/cameronpartee/">linkedin</a>
+        <a href="https://github.com/cameronepartee02">github</a>
+        <a href="mailto:cameronepartee@gmail.com">email</a>
+      </div>
+      <a class="hero-cred" href="https://learn.microsoft.com/api/credentials/share/en-us/CameronPartee-3713/F8A083142D6A56B0?sharingId=3F5B083F74B1A5E5" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 16 16"><rect x="0" y="0" width="7" height="7" fill="#F35325"/><rect x="9" y="0" width="7" height="7" fill="#81BC06"/><rect x="0" y="9" width="7" height="7" fill="#05A6F0"/><rect x="9" y="9" width="7" height="7" fill="#FFBA08"/></svg>
+        Microsoft Certified: Power BI Data Analyst Associate
+      </a>
+    </div>
+
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="num">2</div>
+        <div class="lbl">degrees &middot; B.S. Spelman College &middot; M.S. NYU</div>
+      </div>
+      <div class="kpi-card">
+        <div class="num">5.7</div>
+        <div class="lbl">years as an Engineer at Microsoft</div>
+      </div>
+      <div class="kpi-card">
+        <div class="num">Top 10%</div>
+        <div class="lbl">Top Performer at Beats by Dre Data Analytics Externship</div>
+      </div>
+      <div class="kpi-card">
+        <div class="num">3</div>
+        <div class="lbl">active loyalty accounts in national retail &amp; consumer brands</div>
+      </div>
+    </div>
+
+    <section id="projects">
+      <h2>Projects</h2>
+
+      <a class="project-card" href="project_2.html">
+        <div class="project-card-text">
+          <div class="tag-row">
+            <span class="p-tag eff">Market-intelligence</span>
+            <span class="p-tag accent">Tableau</span>
+            <span class="p-tag eff">Data Visualization</span>
+            <span class="p-tag accent">Business Case</span>
+          </div>
+          <h3>Widest reach wins, hands down. For max efficiency.</h3>
+          <p>A skills-demand breakdown of 16 job postings across 6 companies, built and framed the way a staffing firm would build it for a client, not the way a candidate quietly researches for themselves.</p>
+          <span class="p-view">View project &rarr;</span>
+        </div>
+        <div class="project-card-thumb">
+          <img src="project_2_preview.png" alt="Tableau dashboard preview: skill category breakdown and company comparison charts from the job-market skills analysis">
+        </div>
+      </a>
+
+      <a class="project-card" href="project_1.html">
+        <div class="project-card-text">
+          <div class="tag-row">
+            <span class="p-tag accent">Machine Learning</span>
+            <span class="p-tag eff">Gradient Boosting</span>
+            <span class="p-tag accent">Business Case</span>
+            <span class="p-tag eff">Python</span>
+          </div>
+          <h3>When should a fan buy their Super Bowl ticket?</h3>
+          <p>Built to answer "when should I buy?" It didn't. The most accurate version of the model answers a different question instead: how pricey is this matchup, based on who's playing.</p>
+          <span class="p-view">View project &rarr;</span>
+        </div>
+        <div class="project-card-thumb">
+          <img src="project_1_preview.png" alt="Dashboard preview: feature-importance and actual-vs-predicted charts from the Super Bowl ticket pricing model">
+        </div>
+      </a>
+    </section>
+
+    <section id="credentials">
+      <h2 style="font-size:1.5rem;">Credentials</h2>
+      <div class="cred-card">
+        <div class="cred-mark">
+          <svg width="34" height="34" viewBox="0 0 16 16"><rect x="0" y="0" width="7" height="7" fill="#F35325"/><rect x="9" y="0" width="7" height="7" fill="#81BC06"/><rect x="0" y="9" width="7" height="7" fill="#05A6F0"/><rect x="9" y="9" width="7" height="7" fill="#FFBA08"/></svg>
+        </div>
+        <div class="cred-body">
+          <h3>Microsoft Certified: Power BI Data Analyst Associate</h3>
+          <div class="cred-meta">
+            Earned Sep 21, 2026 <span>&middot;</span> ID F8A083142D6A56B0
+          </div>
+          <div class="cred-skills">
+            <span class="cred-skill">Prepare the data</span>
+            <span class="cred-skill">Model the data</span>
+            <span class="cred-skill">Visualize and analyze the data</span>
+            <span class="cred-skill">Manage and secure Power BI</span>
+          </div>
+        </div>
+        <a class="cred-verify" href="https://learn.microsoft.com/api/credentials/share/en-us/CameronPartee-3713/F8A083142D6A56B0?sharingId=3F5B083F74B1A5E5" target="_blank" rel="noopener">Verify &rarr;</a>
+      </div>
+    </section>
+
+    <section id="background-skills">
+      <div class="split-row">
+
+        <div class="split-col">
+          <h2 style="font-size:1.5rem;">Past Experience</h2>
+
+          <div class="bg-item" id="exp-kobie" data-role="kobie">
+            <div class="bg-when">May 2026 &ndash; present</div>
+            <div class="bg-what">
+              <h3>Decision Science Analyst &middot; Kobie</h3>
+              <p>Built self-serve financial modeling tools and optimized large-scale SQL pipelines for Subway and GNC, cutting a customer-segmentation job from 30 minutes to 5 seconds across 14.6 million accounts and automating recurring client reporting.</p>
+            </div>
+          </div>
+
+          <div class="bg-item" id="exp-extern" data-role="extern">
+            <div class="bg-when">Feb &ndash; May 2026</div>
+            <div class="bg-what">
+              <h3>Data Analytics Extern &middot; Beats by Dre <span class="badge">Top Performer</span></h3>
+              <p>Turned customer feedback and survey data into actionable insight dashboards for a global consumer brand &mdash; ranked in the top 10% of externs.</p>
+            </div>
+          </div>
+
+          <div class="bg-item" id="exp-microsoft" data-role="microsoft">
+            <div class="bg-when">Jul 2020 &ndash; Feb 2026</div>
+            <div class="bg-what">
+              <h3>Engineer &middot; Microsoft</h3>
+              <p>Built interactive views across Azure and supported test coverage analysis and cross-functional requirements while working with engineering, product, and leadership.</p>
+            </div>
+          </div>
+
+          <p class="bg-note" id="degrees-note">M.S., New York University &middot; B.S. Computer Science, Spelman College</p>
+        </div>
+
+        <div class="split-col">
+          <h2 style="font-size:1.5rem;">Tools &amp; methods</h2>
+          <p class="tm-hint">Click a role in Past Experience to see which skills came from where.</p>
+
+          <div class="tm-col">
+            <h3>Tools</h3>
+            <div class="tag-list">
+              <span class="tag">SQL</span>
+              <span class="tag" data-role="kobie">Snowflake</span>
+              <span class="tag">Tableau</span>
+              <span class="tag" data-role="microsoft">Microsoft Power BI</span>
+              <span class="tag" data-role="extern">Python</span>
+              <span class="tag" data-role="extern">pandas</span>
+              <span class="tag" data-role="extern">NumPy</span>
+              <span class="tag" data-role="extern">Matplotlib</span>
+              <span class="tag">scikit-learn</span>
+              <span class="tag" data-role="microsoft">Azure</span>
+              <span class="tag" data-role="kobie">Excel</span>
+              <span class="tag" data-role="extern">Google Sheets</span>
+              <span class="tag" data-role="extern">Google Colab</span>
+            </div>
+          </div>
+          <div class="tm-col">
+            <h3>Methods</h3>
+            <div class="tag-list">
+              <span class="tag filled" data-role="microsoft">Statistical Data Analysis</span>
+              <span class="tag filled" data-role="extern">Correlation Analysis</span>
+              <span class="tag filled">Feature Importance</span>
+              <span class="tag filled">Hyperparameter Tuning</span>
+              <span class="tag filled">Gradient Boosting</span>
+              <span class="tag filled">LOGO-CV</span>
+              <span class="tag filled" data-role="extern">Segmentation</span>
+              <span class="tag filled" data-role="kobie">Query Optimization</span>
+              <span class="tag filled" data-role="kobie">Pipeline Automation</span>
+              <span class="tag filled" data-role="kobie">Scenario Modeling</span>
+              <span class="tag filled" data-role="kobie">Financial &amp; Liability Modeling</span>
+              <span class="tag filled">Business Case &amp; Strategy Framing</span>
+              <span class="tag filled">Data Visualization</span>
+              <span class="tag filled">AI/GenAI Fluency</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    Cameron Partee &middot; Data Analyst &middot; <a href="https://www.linkedin.com/in/cameronpartee/">LinkedIn</a> &middot; <a href="https://github.com/cameronepartee02">GitHub</a> &middot; <a href="mailto:cameronepartee@gmail.com">Email</a>
+  </footer>
+
+<script>
+  var selectedRole = null;
+  function applyRoleHighlight() {
+    document.querySelectorAll('[data-role]').forEach(function(el) {
+      el.style.opacity = (!selectedRole || el.dataset.role === selectedRole) ? '1' : '0.3';
+    });
+    document.querySelectorAll('.bg-item[data-role]').forEach(function(el) {
+      el.classList.toggle('role-active', el.dataset.role === selectedRole);
+    });
+  }
+  function toggleRole(role) {
+    selectedRole = (selectedRole === role) ? null : role;
+    applyRoleHighlight();
+  }
+  document.querySelectorAll('.bg-item[data-role]').forEach(function(el) {
+    el.addEventListener('click', function() { toggleRole(el.dataset.role); });
+  });
+
+  var tickerRoleMap = { 'Microsoft': 'exp-microsoft', 'Kobie': 'exp-kobie', 'Top Performer': 'exp-extern' };
+  var tickerDegreeWords = ['Spelman College', 'NYU'];
+
+  document.querySelectorAll('.ticker span').forEach(function(span) {
+    var word = span.textContent.trim();
+    span.addEventListener('click', function() {
+      if (tickerRoleMap[word]) {
+        var target = document.getElementById(tickerRoleMap[word]);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (word === 'Microsoft') toggleRole('microsoft');
+        if (word === 'Top Performer') toggleRole('extern');
+        if (word === 'Kobie') toggleRole('kobie');
+        return;
+      }
+      if (tickerDegreeWords.indexOf(word) !== -1) {
+        var note = document.getElementById('degrees-note');
+        if (note) note.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      var matched = null;
+      document.querySelectorAll('.tag').forEach(function(t) {
+        if (t.textContent.trim() === word) matched = t;
+      });
+      if (matched) {
+        matched.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        matched.classList.add('tag-flash');
+        setTimeout(function() { matched.classList.remove('tag-flash'); }, 1200);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
